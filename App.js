@@ -239,21 +239,24 @@ export default class App extends React.Component {
                                 <Animated.View style={{
                                   position: 'absolute', top: 60, bottom: 0, left: 55, right: 0,
                                   backgroundColor: '#FFFFFF',
-                                  justifyContent: 'flex-end',
+                                  flexDirection: 'row',
+                                  justifyContent: 'space-between',
+                                  alignItems: 'flex-end',
                                   width: this.state.imageWidth,
                                   height: this.getImgHeight(image.url)}}>
                                   <Text style={{marginBottom: 20, marginLeft: 20, fontSize: 15, fontFamily: 'sans-serif-light', color: 'black',  fontWeight: 'bold' }}>
                                     {image.text}
                                   </Text>
-                                  {/* <Icon name='ios-arrow-forward-outline' size={25} color='black' /> */}
+                                  <Icon name='ios-arrow-forward-outline' size={25} color='black' style={{marginBottom: 20, marginRight: 20}} />
                                 </Animated.View>
                                 <Animated.Image source ={image.url} style={{
                                   position: 'absolute', top: 0, left: 25,
                                   width: this.state.imageWidth,
                                   height: this.getImgHeight(image.url) }}>
-                                  <View style={{width: 50, height: 50, backgroundColor: '#B5F5E3', justifyContent: 'center', alignItems: 'center', opacity: 0.5}}>
-                                    <Text style={{ fontSize: 25, fontFamily: 'sans-serif-light', color: 'black'}}>{index}</Text>
-                                  </View>
+                                  <LinearGradient colors={['#CDFCDA', '#B5F5E3']} start={{x: 0.0, y: 0.25}} end={{x: 0.5, y: 1.0}}
+                                     style={{width: 40, height: 40, justifyContent: 'center', alignItems: 'center'}}>
+                                    <Text style={{ fontSize: 15, fontFamily: 'sans-serif-medium', color: 'black'}}>{index + 1}</Text>
+                                  </LinearGradient>
                                 </Animated.Image>
                               </Animated.View>
                             )
