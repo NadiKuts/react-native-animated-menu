@@ -50,16 +50,13 @@ export default class App extends React.Component {
       viewHeight: Dimensions.get('window').height,
 
       imageWidth: Dimensions.get('window').width * 0.8,
-      topViewHeight: Dimensions.get('window').height * 0.4,
 
       animatedContentScaleX: new Animated.Value(1),
       animatedContentScaleY: new Animated.Value(1),
-      animatedContentPosition: new Animated.ValueXY({x: 0, y: 0}),
 
       animatedTopMenuMargin: new Animated.Value(-Dimensions.get('window').height),
 
       activeMenuItem: [ [true, false, false], [false,false, false], [false, false,false]],
-      isSideMenuOpen: false,
       imageSizeCoef: 0.8
     };
 
@@ -70,8 +67,6 @@ export default class App extends React.Component {
   }
 
   openTopMenu(){
-    this.setState({isSideMenuOpen: true})
-
     Animated.parallel([
       Animated.timing(
         this.state.animatedContentScaleY,
@@ -120,7 +115,7 @@ export default class App extends React.Component {
                     easing: Easing.cubic,
                     duration: 300
                   })
-                ]).start( () => {this.setState({isSideMenuOpen: false}) })
+                ]).start()
               }
 
               getImgHeight(img, coef) {
@@ -168,6 +163,12 @@ export default class App extends React.Component {
                   fontFamily: 'sans-serif-medium',
                   color: '#c4a1fc'
                 }
+                const menuRowStyle = {
+                  flex: 1,
+                  flexDirection: 'row',
+                  justifyContent: 'space-around',
+                  alignItems: 'center'
+                }
 
                 for (let i = 0; i < rows; i++){
                   let menuRow = [];
@@ -179,7 +180,7 @@ export default class App extends React.Component {
                     )
                   }
                   topMenuItems.push(
-                    <View key={i} style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center'}}>
+                    <View key={i} style={menuRowStyle}>
                       {menuRow}
                     </View>
                   );
@@ -188,7 +189,6 @@ export default class App extends React.Component {
                 return topMenuItems;
               }
 
-
               render() {
                 const profileImage = {
                   width: 50,
@@ -196,38 +196,32 @@ export default class App extends React.Component {
                   borderRadius: 50
                 }
 
-
                 return (
                   <LinearGradient  colors={['#B453FE', '#71A7ED']} style={styles.container}>
-                    <StatusBar backgroundColor='white'/>
-
-                    {this.state.isSideMenuOpen && (
-                      <Animated.View style={{flex: 1, marginTop: this.state.animatedTopMenuMargin}}>
-                        <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
-                          <View style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', marginLeft: 15}}>
-                            <Image style={profileImage} source={require('./assets/images/1.jpeg')}></Image>
-                            <Text style={{fontSize: 14,fontFamily: 'sans-serif-medium', color: 'white', marginLeft: 15}}>CARMEN RIVERA</Text>
-                          </View>
-                          <TouchableOpacity style={{marginRight: 15}} onPress={ ()=> this.closeTopMenu() }>
-                            <Icon name='ios-close' size={40} color='white'/>
-                          </TouchableOpacity>
+                    <Animated.View style={{flex: 1, marginTop: this.state.animatedTopMenuMargin}}>
+                      <View style={styles.menuProfileStyle}>
+                        <View style={styles.userProfileStyle}>
+                          <Image style={profileImage} source={require('./assets/images/1.jpeg')}></Image>
+                          <Text style={styles.userLabelStyle}>CARMEN RIVERA</Text>
                         </View>
-                        <View style= {{flex: 4, justifyContent: 'space-around'}}>
-                          {this.renderTopMenu()}
-                          <View style={{flex: 1.5, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center'}}>
-                            <Text style={{marginLeft: 35,fontSize: 14, fontFamily: 'sans-serif-medium', color: '#c4a1fc'}}>LOGOUT</Text>
-                          </View>
+                        <TouchableOpacity style={{marginRight: 15}} onPress={ ()=> this.closeTopMenu() }>
+                          <Icon name='ios-close' size={40} color='white'/>
+                        </TouchableOpacity>
+                      </View>
+                      <View style= {styles.menuContentStyle}>
+                        {this.renderTopMenu()}
+                        <View style={styles.logoutRowStyle}>
+                          <Text style={styles.logoutLabelStyle}>LOGOUT</Text>
                         </View>
-                      </Animated.View>
-                    )}
+                      </View>
+                    </Animated.View>
 
-                    <Animated.View style={{ flex: 1, backgroundColor: '#DCE4E7', transform:[{scaleX: this.state.animatedContentScaleX}]}}>
-
-                      <Animated.View style={{flex: 1 , flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',transform:[{scaleY: this.state.animatedContentScaleX}]}}>
+                    <Animated.View style={[styles.mainContentStyle,{transform:[{scaleX: this.state.animatedContentScaleX}]}]}>
+                      <Animated.View style={[styles.headerContainerStyle,{transform:[{scaleY: this.state.animatedContentScaleX}]}]}>
                         <TouchableOpacity onPress={ ()=> this.openTopMenu() } >
                           <Icon name='ios-menu' size={27} color='black' style={{marginLeft: 20}} />
                         </TouchableOpacity>
-                        <Text style={{fontSize: 15, fontFamily: 'sans-serif-medium', color: 'black', fontWeight: 'bold'}}>GALLERY</Text>
+                        <Text style={styles.titleLabelStyle}>GALLERY</Text>
                         <Icon name='ios-search' size={27} color='black'  style={{marginRight: 20}}/>
                       </Animated.View>
 
@@ -236,26 +230,16 @@ export default class App extends React.Component {
                           {images.map( (image,index) => {
                             return (
                               <Animated.View key={index} style={{ width: this.state.viewWidth, height: this.getCardContainerHeight(image.url), marginBottom: 30 }}>
-                                <Animated.View style={{
-                                  position: 'absolute', top: 60, bottom: 0, left: 55, right: 0,
-                                  backgroundColor: '#FFFFFF',
-                                  flexDirection: 'row',
-                                  justifyContent: 'space-between',
-                                  alignItems: 'flex-end',
-                                  width: this.state.imageWidth,
-                                  height: this.getImgHeight(image.url)}}>
-                                  <Text style={{marginBottom: 20, marginLeft: 20, fontSize: 15, fontFamily: 'sans-serif-light', color: 'black',  fontWeight: 'bold' }}>
+                                <Animated.View style={[styles.imageContainerStyle, {width: this.state.imageWidth,height: this.getImgHeight(image.url)}]}>
+                                  <Text style={styles.imageLabelStyle}>
                                     {image.text}
                                   </Text>
                                   <Icon name='ios-arrow-forward-outline' size={25} color='black' style={{marginBottom: 20, marginRight: 20}} />
                                 </Animated.View>
-                                <Animated.Image source ={image.url} style={{
-                                  position: 'absolute', top: 0, left: 25,
-                                  width: this.state.imageWidth,
-                                  height: this.getImgHeight(image.url) }}>
+                                <Animated.Image source ={image.url} style={[styles.imageStyle,{width: this.state.imageWidth,height: this.getImgHeight(image.url)}]}>
                                   <LinearGradient colors={['#CDFCDA', '#B5F5E3']} start={{x: 0.0, y: 0.25}} end={{x: 0.5, y: 1.0}}
-                                     style={{width: 40, height: 40, justifyContent: 'center', alignItems: 'center'}}>
-                                    <Text style={{ fontSize: 15, fontFamily: 'sans-serif-medium', color: 'black'}}>{index + 1}</Text>
+                                    style={styles.counterContainerStyle}>
+                                    <Text style={styles.counterLabelStyle}>{index + 1}</Text>
                                   </LinearGradient>
                                 </Animated.Image>
                               </Animated.View>
@@ -271,24 +255,92 @@ export default class App extends React.Component {
           }
 
 
-
           const styles = StyleSheet.create({
             container: {
               flex: 1,
               backgroundColor: '#A76BFF'
             },
-            header: {
-              flex: 1,
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center'
-            },
-            headerText: {
-              fontSize: 25,
-              fontFamily: 'sans-serif-light',
-              color: 'black',
-            },
             content: {
               flex: 5
+            },
+            menuContentStyle: {
+              flex: 4, justifyContent: 'space-around'
+            },
+            menuProfileStyle: {
+              flex: 1,
+              flexDirection: 'row',
+              alignItems: 'center'
+            },
+            userProfileStyle: {
+              flex: 1,
+              flexDirection: 'row',
+              justifyContent: 'flex-start',
+              alignItems: 'center',
+              marginLeft: 15
+            },
+            userLabelStyle: {
+              fontSize: 14,
+              fontFamily: 'sans-serif-medium',
+              color: 'white',
+              marginLeft: 15
+            },
+            logoutRowStyle: {
+              flex: 1.5,
+              flexDirection: 'row',
+              justifyContent: 'flex-start',
+              alignItems: 'center'
+            },
+            logoutLabelStyle: {
+              marginLeft: 35,
+              fontSize: 14,
+              fontFamily: 'sans-serif-medium',
+              color: '#c4a1fc'
+            },
+            mainContentStyle: {
+              flex: 1,
+              backgroundColor: '#DCE4E7',
+            },
+            titleLabelStyle: {
+              fontSize: 15,
+              fontFamily: 'sans-serif-medium',
+              color: 'black',
+              fontWeight: 'bold'
+            },
+            headerContainerStyle: {
+              flex: 1 ,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            },
+            imageContainerStyle: {
+              position: 'absolute', top: 60, bottom: 0, left: 55, right: 0,
+              backgroundColor: '#FFFFFF',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'flex-end',
+            },
+            imageLabelStyle: {
+              marginBottom: 20,
+              marginLeft: 20,
+              fontSize: 15,
+              fontFamily: 'sans-serif-light',
+              color: 'black',
+              fontWeight: 'bold'
+            },
+            imageStyle: {
+              position: 'absolute',
+              top: 0,
+              left: 25,
+            },
+            counterContainerStyle: {
+              width: 40,
+              height: 40,
+              justifyContent: 'center',
+              alignItems: 'center'
+            },
+            counterLabelStyle: {
+              fontSize: 15,
+              fontFamily: 'sans-serif-medium',
+              color: 'black'
             }
           });
