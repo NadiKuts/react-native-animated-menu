@@ -8,7 +8,7 @@ Inspired by: https://www.uplabs.com/posts/relate-ux-parallax-scrolling-sidemenu-
 
 |      Original design      |  Implementation (Android)         |
 | ------------------------- |:-----------------------:|
-| ![Output sample](original.gif)|![Output sample](2.gif) |
+| ![Output sample](preview.gif)|![Output sample](2.gif) |
 
 
 ### Instructions
@@ -27,7 +27,7 @@ Install Expo App on your [Android smartphone](https://play.google.com/store/apps
 
 Scan this QR-code with your Expo App. 
 
-![alt text](qr-code.png)
+![alt text](https://github.com/NadiKuts/react-native-animated-menu/blob/master/assets/qr-code.png)
 
 ... or go [here](https://expo.io/@devilsanek/animated-menu) and try it out!
 
