@@ -6,9 +6,9 @@ Concept for animated top-down menu transition implemented with React Native
 
 Inspired by: https://www.uplabs.com/posts/relate-ux-parallax-scrolling-sidemenu-1
 
-|      Original design      |  Implementation (Android)         |
+|      Original design      |  Implementation        |
 | ------------------------- |:-----------------------:|
-| ![Output sample](preview.gif)|![Output sample](2.gif) |
+| ![Output sample](preview.gif)|![Output sample](implementation.gif) |
 
 
 ### Instructions
