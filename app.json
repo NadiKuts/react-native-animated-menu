@@ -1,0 +1,23 @@
+{
+  "expo": {
+      "name": "animated-menu",
+      "description": "Animated top-down menu  transition",
+      "slug": "animated-menu",
+      "privacy": "public",
+      "sdkVersion": "19.0.0",
+      "version": "1.0.0",
+      "orientation": "portrait",
+      "primaryColor": "#cccccc",
+      "icon": "./assets/images/main.png",
+      "loading": {
+        "icon": "./assets/icons/loading-icon.png",
+        "hideExponentText": false
+      },
+      "packagerOpts": {
+        "assetExts": ["ttf", "mp4"]
+      },
+      "ios": {
+        "supportsTablet": true
+      }
+    }
+}
