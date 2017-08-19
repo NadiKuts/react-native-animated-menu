@@ -1,4 +1,4 @@
--+# Animated Menu Transition
+### Animated Menu Transition
 
 Concept for animated top-down menu transition implemented with React Native
 
